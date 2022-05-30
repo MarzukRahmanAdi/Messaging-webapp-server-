@@ -35,4 +35,10 @@ export class UserController {
   getMessage(@Param('userId') userId:string){
       this.userService.GetMessages(+userId);
   }
+
+
+  @Get('login')
+  login(@Param('userId') userId:string){
+      
+  }
 }

@@ -1,5 +1,6 @@
 import { Prop, Schema } from "@nestjs/mongoose";
 import mongoose from "mongoose";
+import { message } from "./message.schema";
 import { user } from "./User.schema";
 
 export type InboxDocument = inbox & Document

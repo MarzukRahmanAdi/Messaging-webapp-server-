@@ -9,7 +9,10 @@ export class user {
     @Prop()
     Name : string
 
-    @Prop({type : mongoose.Schema.Types.ObjectId , ref : "Inbox"})
+    @Prop()
+    Password : string
+
+    @Prop([{type : mongoose.Schema.Types.ObjectId , ref : "Inbox"}])
     Inboxes : inbox[]
 }
 

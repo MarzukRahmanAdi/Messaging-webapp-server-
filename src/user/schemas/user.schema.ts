@@ -7,6 +7,9 @@ export type UserDocument = user & Document
 @Schema()
 export class user {
     @Prop()
+    Email:string
+
+    @Prop()
     Name : string
 
     @Prop()
@@ -14,6 +17,8 @@ export class user {
 
     @Prop([{type : mongoose.Schema.Types.ObjectId , ref : "Inbox"}])
     Inboxes : inbox[]
+
+
 }
 
 export const UserScehma = SchemaFactory.createForClass(user);

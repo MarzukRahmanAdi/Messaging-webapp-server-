@@ -29,8 +29,8 @@ export class UserController {
   }
 
 
-  @Get('login')
-  login(@Param('userId') userId:string){
-      
+  @Post('login')
+  login(@Body() createUserDto:CreateUserDto ){
+     return this.userService.login(createUserDto);
   }
 }

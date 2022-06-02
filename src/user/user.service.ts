@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ConsoleLogger, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -76,19 +76,38 @@ export class UserService {
   }
   
   async GetMessages(Sender: string, Receiver: string){
+    console.log(Sender, Receiver);
       const message = await this.InboxModel.find({Sender : Sender, Receiver : Receiver}).populate("messages")
-      if(message){
+      console.log(message.length)
+      if(message.length !== 0){
         //Get all messages
+        console.log("case 1", message)
         return message
       } else{
         //Create new inbox
         const customInbox = new this.InboxModel({Sender : Sender, Receiver : Receiver})
+        console.log("case 2", customInbox)
         return customInbox.save()
       }
   }
   
   async SaveMessage(createMessageDto : CreateMessageDto){
-    const messageBox = await this.MessageModel.findById(createMessageDto.chatId);
-
+    try{
+      console.log(createMessageDto)
+      const message = {Sender : createMessageDto.Sender, Receiver : createMessageDto.Receiver, Text: createMessageDto.text}
+      const CustomMessage = await new this.MessageModel(message)
+      console.log(CustomMessage);
+      
+      const messageBox:any = await this.InboxModel.findOneAndUpdate({ _id : createMessageDto.chatId}, {$push : {messages : [CustomMessage._id] }});
+      console.log(messageBox)
+      if(messageBox.messages.length !== 0){
+        console.log("saving");
+        
+        CustomMessage.save()
+        return messageBox.save();
+      }
+    } catch(err) {
+      return err
+    }
   }
 }

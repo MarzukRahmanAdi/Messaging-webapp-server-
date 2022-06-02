@@ -14,7 +14,7 @@ export class inbox{
     @Prop({type : mongoose.Schema.Types.ObjectId, ref : "User"})
     Receiver : user
 
-    @Prop({type : mongoose.Schema.Types.ObjectId, ref : "message"})
+    @Prop([{type : mongoose.Schema.Types.ObjectId, ref : "message"}])
     messages : message[]
 }
 

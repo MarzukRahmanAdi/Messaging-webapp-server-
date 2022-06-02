@@ -1,4 +1,4 @@
-import { Prop, Schema } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose from "mongoose";
 import { message } from "./message.schema";
 import { user } from "./User.schema";
@@ -17,3 +17,5 @@ export class inbox{
     @Prop({type : mongoose.Schema.Types.ObjectId, ref : "message"})
     messages : message[]
 }
+
+export const InboxSchema = SchemaFactory.createForClass(inbox)

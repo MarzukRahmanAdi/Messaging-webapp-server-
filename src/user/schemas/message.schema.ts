@@ -14,11 +14,9 @@ export class message{
     @Prop()
     Receiver : boolean
 
-    
+    @Prop()
+    Text : string
 
-
-    @Prop({type : mongoose.Schema.Types.ObjectId, ref: "Inbox"})
-    Inbox : inbox[]
 }
 
 export const MessageSchema = SchemaFactory.createForClass(message)

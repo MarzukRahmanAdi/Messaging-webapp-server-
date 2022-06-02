@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateMessageDto } from './dto/message.dto';
 
 @Controller('users')
 export class UserController {
@@ -23,9 +24,14 @@ export class UserController {
   }
 
 
-  @Get('message')
-  getMessage(@Param('userId') userId:string){
-      this.userService.GetMessages(+userId);
+  @Get('/:Sender/message/:Receiver')
+  getMessage(@Param('Sender') Sender:string, @Param('Receiver') Receiver:string){
+      return this.userService.GetMessages(Sender, Receiver);
+  }
+
+  @Post('PushMessage')
+  SaveMessage(@Body() createMessageDto: CreateMessageDto){
+      return this.userService.SaveMessage(createMessageDto);
   }
 
 

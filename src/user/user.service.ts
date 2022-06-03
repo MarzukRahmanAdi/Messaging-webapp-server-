@@ -42,12 +42,19 @@ export class UserService {
 
   }
 
-  findAll() {
-    return this.userModel.find().exec();
+  async findAll() {
+    let names = new Array()
+    const users:any = await this.userModel.find().exec();
+
+    users.map(x =>{      
+      names.push({name : x.Name, id : x._id})
+    })
+    
+    return names
   }
 
   findOne(id: string) {
-    return this.userModel.findById(id).exec();
+    return "Who are youuuu"
   }
 
 

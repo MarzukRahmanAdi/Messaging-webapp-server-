@@ -27,9 +27,9 @@ export class UserService {
           const customUser = new this.userModel(createUserDto);
           customUser.save();
           return {Response : {
-            Name : customUser.Name,
-            Id : customUser._id,
-            Email: customUser.Email
+            name : customUser.Name,
+            id : customUser._id,
+            email: customUser.Email
           }}
         } else{
           throw new HttpException('Email already used', HttpStatus.FORBIDDEN);
@@ -54,7 +54,8 @@ export class UserService {
   }
 
   findOne(id: string) {
-    return "Who are youuuu"
+    const user:any = this.userModel.findById(id).exec()
+    return user.Name
   }
 
 
@@ -84,12 +85,20 @@ export class UserService {
   
   async GetMessages(Sender: string, Receiver: string){
     console.log(Sender, Receiver);
+    let message2:any;
       const message = await this.InboxModel.find({Sender : Sender, Receiver : Receiver}).populate("messages")
       console.log(message.length)
       if(message.length !== 0){
-        //Get all messages
-        console.log("case 1", message)
         return message
+      }
+      if(message.length === 0 || message === null){
+        //Get all messages
+        message2 = await this.InboxModel.find({Sender : Receiver, Receiver : Sender}).populate("messages")
+        console.log("case 1", message)
+        console.log("case 2", message2)
+      }
+      if( message2.length !== 0 ){
+        return message2
       } else{
         //Create new inbox
         const customInbox = new this.InboxModel({Sender : Sender, Receiver : Receiver})
@@ -101,7 +110,7 @@ export class UserService {
   async SaveMessage(createMessageDto : CreateMessageDto){
     try{
       console.log(createMessageDto)
-      const message = {Sender : createMessageDto.Sender, Receiver : createMessageDto.Receiver, Text: createMessageDto.text}
+      const message = {Sender : createMessageDto.Sender, Receiver : createMessageDto.Receiver, Text: createMessageDto.Text}
       const CustomMessage = await new this.MessageModel(message)
       console.log(CustomMessage);
       

@@ -21,6 +21,7 @@ export class UserService {
       if(createUserDto.Password && createUserDto.Email && createUserDto.Name){
         const user:any = await this.userModel.findOne({"Email" : createUserDto.Email}).exec();  
         if(!user){
+          //if there is no user using that email
           const hash = await bcrypt.hash(createUserDto.Password, 10);
           createUserDto.Password = hash;
             
@@ -62,6 +63,7 @@ export class UserService {
   
   async login(createUserDto: CreateUserDto){
     console.log(createUserDto)
+
     if(createUserDto.Password && createUserDto.Email){
       const user:any = await this.userModel.findOne({"Email" : createUserDto.Email}).exec();  
       

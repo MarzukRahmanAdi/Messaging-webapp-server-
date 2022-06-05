@@ -15,6 +15,8 @@ $ npm install
 ## Running the app
 
 ```bash
+# at first add the mongodb database link in the .env file
+
 # development
 $ npm run start
 
